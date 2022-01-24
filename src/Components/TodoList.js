@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import TodoItem from "./TodoItem";
 import { VscAccount } from "react-icons/vsc";
 import { FcPlus, FcMinus } from "react-icons/fc";
+
+/*
+{
+  id: 1;
+  title: "cleaning";
+  completed: false;
+}
+*/
+
 const TodoList = () => {
+  const [todo, setTodo] = useState("");
+  const [todos, setTodos] = useState([]);
+
+  const addButtonHandler = () => {
+    setTodo("");
+    if (todo.length > 0) {
+      setTodos([
+        {
+          id: todos.length,
+          title: todo,
+          completed: false,
+        },
+        ...todos,
+      ]);
+    }
+  };
   return (
     <Wrapper>
       <CategoryHeader>
@@ -13,11 +38,13 @@ const TodoList = () => {
           size={"30px"}
         />
         <h2>Personal</h2>
-        <TodoInput />
-        <FcPlus />
+        <TodoInput value={todo} onChange={(e) => setTodo(e.target.value)} />
+        <FcPlus onClick={addButtonHandler} />
       </CategoryHeader>
       <Wrapper2>
-        <TodoItem />
+        {todos.map((todo, index) => (
+          <TodoItem key={index} todo={todo} todos={todos} setTodos={setTodos} />
+        ))}
       </Wrapper2>
     </Wrapper>
   );

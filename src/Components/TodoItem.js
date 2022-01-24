@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { BiBadge, BiBadgeCheck } from "react-icons/bi";
@@ -10,7 +10,40 @@ import TodoList from "./TodoList";
 //left check box: empty - BiBadge ,filled -BiBadgeCheck  in import { IconName } from "react-icons/bi";
 //delete :  MdDelete in import { IconName } from "react-icons/md";
 //plus icon : FcPlus, minus:FcMinus in import { IconName } from "react-icons/fc";
-const TodoItem = () => {
+
+const TodoItem = ({ todo, todos, setTodos }) => {
+  const [editedTodo, setEditedTodo] = useState(todo.title);
+
+  useEffect(() => {
+    setEditedTodo(todo.title);
+  }, [todo]);
+
+  const saveTodo = () => {
+    const currentTodoID = todo.id;
+    setTodos(
+      todos.map((todo) =>
+        todo.id === currentTodoID ? { ...todo, title: editedTodo } : todo
+      )
+    );
+    console.log(todos);
+  };
+
+  const deleteHandler = () => {
+    console.log(todo.id, todo.title);
+    const currentTodoID = todo.id;
+    setTodos(todos.filter((todo) => todo.id != currentTodoID));
+  };
+
+  const completeTodo = () => {
+    const currentTodoID = todo.id;
+    setTodos(
+      todos.map((todo) =>
+        todo.id === currentTodoID
+          ? { ...todo, completed: !todo.completed }
+          : todo
+      )
+    );
+  };
   return (
     <>
       <TodoListItem>
@@ -19,13 +52,22 @@ const TodoItem = () => {
           cursor={"pointer"}
           size={"25px"}
           style={{ marginRight: "5px" }}
+          onClick={completeTodo}
         />
-        <input />
-        <AiOutlineCheck
-          color="green"
-          cursor={"pointer"}
-          style={{ padding: "10px 16px", marginRight: "-17px" }}
+        <input
+          value={editedTodo}
+          onChange={(e) => setEditedTodo(e.target.value)}
+          style={{ textDecoration: todo.completed ? `line-through` : `none` }}
         />
+
+        {todo.title != editedTodo && (
+          <AiOutlineCheck
+            color="green"
+            cursor={"pointer"}
+            style={{ padding: "10px 16px", marginRight: "-17px" }}
+            onClick={saveTodo}
+          />
+        )}
         <MdDelete
           style={{
             padding: "10px 16px",
@@ -35,6 +77,7 @@ const TodoItem = () => {
             color: "red",
           }}
           cursor={"pointer"}
+          onClick={deleteHandler}
         />
       </TodoListItem>
     </>
