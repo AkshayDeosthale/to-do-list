@@ -6,18 +6,53 @@ import { FaAccessibleIcon, FaAffiliatetheme, FaAdn } from "react-icons/fa";
 import TodoItem from "./Components/TodoItem";
 import TodoList from "./Components/TodoList";
 import { VscAccount } from "react-icons/vsc";
+import Sidebar from "./Components/Sidebar";
 
 function App() {
+  const [sideBardToggle, setSideBarToggle] = useState(true);
+  const todoList = [
+    {
+      name: "personal",
+      color: "#fd76a1",
+      icon: "fas fa-user",
+    },
+    {
+      name: "work",
+      color: "#70c4be",
+      icon: "fas fa-briefcase",
+    },
+    {
+      name: "profit",
+      color: "#ab6ddf",
+      icon: "fas fa-file-code",
+    },
+  ];
   return (
     <Wrapper>
-      <Header />
+      <Header
+        sideBardToggle={sideBardToggle}
+        setSideBarToggle={setSideBarToggle}
+      />
       <Main>
-        <MainContent style={{ width: "100vw" }}>
+        <Sidebar sideBardToggle={sideBardToggle} todoList={todoList} />
+        <MainContent
+          style={{
+            width: `${sideBardToggle ? "300px" : "70px"}`,
+            height: "100vh",
+          }}
+        >
           <TodoContent>
             <Title>DASHBOARD</Title>
             <Greeting>Good morning,Akshay</Greeting>
 
-            <TodoList />
+            {todoList.map((category) => (
+              <TodoList
+                key={category.name}
+                name={category.name}
+                color={category.color}
+                icon={category.icon}
+              />
+            ))}
           </TodoContent>
         </MainContent>
       </Main>

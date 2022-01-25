@@ -9,10 +9,10 @@ import {
 // https://react-icons.github.io/react-icons/icons?name=bs
 //icon packs
 
-const Header = () => {
+const Header = ({ sideBardToggle, setSideBarToggle }) => {
   return (
     <Wrapper>
-      <HeaderItem>
+      <HeaderItem onClick={() => setSideBarToggle(!sideBardToggle)}>
         <BsFillBookFill />
       </HeaderItem>
       <HeaderItem>

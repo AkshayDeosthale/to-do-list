@@ -12,7 +12,7 @@ import { FcPlus, FcMinus } from "react-icons/fc";
 }
 */
 
-const TodoList = () => {
+const TodoList = ({ name, color, icon }) => {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
 
@@ -32,12 +32,10 @@ const TodoList = () => {
   return (
     <Wrapper>
       <CategoryHeader>
-        <VscAccount
-          style={{ marginRight: "10px" }}
-          color="pink"
-          size={"30px"}
-        />
-        <h2>Personal</h2>
+        <CategoryItem styled={{ background: color }}>
+          <i className={icon} />
+        </CategoryItem>
+        <h2>{name}</h2>
         <TodoInput value={todo} onChange={(e) => setTodo(e.target.value)} />
         <FcPlus onClick={addButtonHandler} />
       </CategoryHeader>
@@ -88,3 +86,4 @@ const TodoInput = styled.input`
   padding: 4px 10px;
   margin-right: 4px;
 `;
+const CategoryItem = styled.div``;
