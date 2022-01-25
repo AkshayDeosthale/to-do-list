@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TodoItem from "./TodoItem";
 import { VscAccount } from "react-icons/vsc";
@@ -16,17 +16,47 @@ const TodoList = ({ name, color, icon }) => {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
 
-  const addButtonHandler = () => {
-    setTodo("");
-    if (todo.length > 0) {
-      setTodos([
-        {
-          id: todos.length,
-          title: todo,
-          completed: false,
+  const basURL = `https://api.airtable.com/v0/apphvdxoZpG6Oyy1r/${name}`;
+
+  const getTodos = async () => {
+    const res = await fetch(basURL, {
+      method: "get",
+      headers: {
+        Authorization: "Bearer keyKrseGIJ5z2yaCE",
+      },
+    });
+    const data = await res.json();
+    setTodos(data.records);
+
+    console.log(todos);
+  };
+
+  useEffect(() => {
+    getTodos();
+  }, [todo]);
+
+  const addButtonHandler = async () => {
+    try {
+      await fetch(basURL, {
+        method: "post",
+        headers: {
+          Authorization: "Bearer keyKrseGIJ5z2yaCE",
+          "Content-Type": "application/json",
         },
-        ...todos,
-      ]);
+        body: JSON.stringify({
+          records: [
+            {
+              fields: {
+                title: todo,
+                completed: false,
+              },
+            },
+          ],
+        }),
+      });
+      setTodo("");
+    } catch (err) {
+      console.log(err);
     }
   };
   return (
@@ -41,7 +71,16 @@ const TodoList = ({ name, color, icon }) => {
       </CategoryHeader>
       <Wrapper2>
         {todos.map((todo, index) => (
-          <TodoItem key={index} todo={todo} todos={todos} setTodos={setTodos} />
+          <TodoItem
+            key={index}
+            todo={todo}
+            todos={todos}
+            setTodos={setTodos}
+            basURL={basURL}
+            setTodo={setTodo}
+            name={name}
+            getTodos={getTodos}
+          />
         ))}
       </Wrapper2>
     </Wrapper>

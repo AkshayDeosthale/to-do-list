@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./Components/Header";
 import styled from "styled-components";
 import { FaAccessibleIcon, FaAffiliatetheme, FaAdn } from "react-icons/fa";
@@ -10,6 +10,7 @@ import Sidebar from "./Components/Sidebar";
 
 function App() {
   const [sideBardToggle, setSideBarToggle] = useState(true);
+
   const todoList = [
     {
       name: "personal",

@@ -11,38 +11,73 @@ import TodoList from "./TodoList";
 //delete :  MdDelete in import { IconName } from "react-icons/md";
 //plus icon : FcPlus, minus:FcMinus in import { IconName } from "react-icons/fc";
 
-const TodoItem = ({ todo, todos, setTodos }) => {
-  const [editedTodo, setEditedTodo] = useState(todo.title);
+const TodoItem = ({
+  todo,
+  todos,
+  setTodos,
+  basURL,
+  setTodo,
+  name,
+  getTodos,
+}) => {
+  const [editedTodo, setEditedTodo] = useState(todo.fields.title);
 
   useEffect(() => {
-    setEditedTodo(todo.title);
+    setEditedTodo(todo.fields.title);
   }, [todo]);
 
-  const saveTodo = () => {
-    const currentTodoID = todo.id;
-    setTodos(
-      todos.map((todo) =>
-        todo.id === currentTodoID ? { ...todo, title: editedTodo } : todo
-      )
-    );
-    console.log(todos);
+  const saveTodo = async () => {
+    try {
+      await fetch(`${basURL}/${todo.id}`, {
+        method: "put",
+        headers: {
+          Authorization: "Bearer keyKrseGIJ5z2yaCE",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fields: {
+            title: editedTodo,
+            completed: todo.fields.completed,
+          },
+        }),
+      });
+      getTodos();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const deleteHandler = () => {
-    console.log(todo.id, todo.title);
-    const currentTodoID = todo.id;
-    setTodos(todos.filter((todo) => todo.id != currentTodoID));
+  const deleteHandler = async () => {
+    await fetch(
+      fetch(`${basURL}/${todo.id}`, {
+        method: "delete",
+        headers: {
+          Authorization: "Bearer keyKrseGIJ5z2yaCE",
+        },
+      })
+    );
+    getTodos();
   };
 
-  const completeTodo = () => {
-    const currentTodoID = todo.id;
-    setTodos(
-      todos.map((todo) =>
-        todo.id === currentTodoID
-          ? { ...todo, completed: !todo.completed }
-          : todo
-      )
-    );
+  const completeTodo = async () => {
+    try {
+      await fetch(`${basURL}/${todo.id}`, {
+        method: "put",
+        headers: {
+          Authorization: "Bearer keyKrseGIJ5z2yaCE",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fields: {
+            title: todo.fields.title,
+            completed: !todo.fields.completed,
+          },
+        }),
+      });
+      getTodos();
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <>
@@ -57,10 +92,12 @@ const TodoItem = ({ todo, todos, setTodos }) => {
         <input
           value={editedTodo}
           onChange={(e) => setEditedTodo(e.target.value)}
-          style={{ textDecoration: todo.completed ? `line-through` : `none` }}
+          style={{
+            textDecoration: todo.fields.completed ? `line-through` : `none`,
+          }}
         />
 
-        {todo.title != editedTodo && (
+        {todo.fields.title != editedTodo && (
           <AiOutlineCheck
             color="green"
             cursor={"pointer"}
