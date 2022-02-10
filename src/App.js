@@ -5,11 +5,20 @@ import styled from "styled-components";
 import { FaAccessibleIcon, FaAffiliatetheme, FaAdn } from "react-icons/fa";
 import TodoItem from "./Components/TodoItem";
 import TodoList from "./Components/TodoList";
-import { VscAccount } from "react-icons/vsc";
+
 import Sidebar from "./Components/Sidebar";
 
 function App() {
   const [sideBardToggle, setSideBarToggle] = useState(true);
+
+  const showPop = () => {
+    window.alert(
+      "You can click the Book icon on left to minimize sidebar. This is a ReactJS app hence it demostrates REST APIs. "
+    );
+  };
+  useEffect(() => {
+    showPop();
+  }, []);
 
   const todoList = [
     {
@@ -44,7 +53,7 @@ function App() {
         >
           <TodoContent>
             <Title>DASHBOARD</Title>
-            <Greeting>Good morning,Akshay</Greeting>
+            <Greeting>Hello please add notes</Greeting>
 
             {todoList.map((category) => (
               <TodoList
@@ -75,6 +84,7 @@ const Main = styled.div`
 const TodoContent = styled.div`
   max-width: 100px;
   width: 100%;
+  padding: 12px;
 `;
 const Title = styled.div`
   margin: 50px 0;
@@ -90,4 +100,5 @@ const MainContent = styled.div`
   display: flex;
   justify-content: center;
   transition: 0.3s;
+  padding: 35px;
 `;

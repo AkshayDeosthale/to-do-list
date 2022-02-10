@@ -31,7 +31,7 @@ const TodoItem = ({
       await fetch(`${basURL}/${todo.id}`, {
         method: "put",
         headers: {
-          Authorization: "Bearer keyKrseGIJ5z2yaCE",
+          Authorization: "Bearer keyABhdNIqisqAn0L",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -52,7 +52,7 @@ const TodoItem = ({
       fetch(`${basURL}/${todo.id}`, {
         method: "delete",
         headers: {
-          Authorization: "Bearer keyKrseGIJ5z2yaCE",
+          Authorization: "Bearer keyABhdNIqisqAn0L",
         },
       })
     );
@@ -64,7 +64,7 @@ const TodoItem = ({
       await fetch(`${basURL}/${todo.id}`, {
         method: "put",
         headers: {
-          Authorization: "Bearer keyKrseGIJ5z2yaCE",
+          Authorization: "Bearer keyABhdNIqisqAn0L",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

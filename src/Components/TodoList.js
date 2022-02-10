@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TodoItem from "./TodoItem";
 import { VscAccount } from "react-icons/vsc";
-import { FcPlus, FcMinus } from "react-icons/fc";
+import { FcPlus } from "react-icons/fc";
 
 /*
 {
@@ -22,7 +22,7 @@ const TodoList = ({ name, color, icon }) => {
     const res = await fetch(basURL, {
       method: "get",
       headers: {
-        Authorization: "Bearer keyKrseGIJ5z2yaCE",
+        Authorization: "Bearer keyABhdNIqisqAn0L",
       },
     });
     const data = await res.json();
@@ -38,9 +38,9 @@ const TodoList = ({ name, color, icon }) => {
   const addButtonHandler = async () => {
     try {
       await fetch(basURL, {
-        method: "post",
+        method: "POST",
         headers: {
-          Authorization: "Bearer keyKrseGIJ5z2yaCE",
+          Authorization: "Bearer keyABhdNIqisqAn0L",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
