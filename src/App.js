@@ -11,14 +11,6 @@ import Sidebar from "./Components/Sidebar";
 function App() {
   const [sideBardToggle, setSideBarToggle] = useState(true);
 
-  const showPop = () => {
-    window.alert(
-      "You can click the Book icon on left to minimize sidebar. This is a ReactJS app hence it demostrates REST APIs. "
-    );
-  };
-  useEffect(() => {
-    showPop();
-  }, []);
 
   const todoList = [
     {
